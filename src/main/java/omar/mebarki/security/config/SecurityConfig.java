@@ -2,6 +2,7 @@ package omar.mebarki.security.config;
 
 import omar.mebarki.security.auth.AuthenticationRequestFilter;
 import omar.mebarki.security.auth.CustomAuthenticationProvider;
+import omar.mebarki.security.rest.HelloRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,7 +17,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 @Configuration()
 @EnableWebSecurity
-@ComponentScan(basePackageClasses = {CustomAuthenticationProvider.class})
+@ComponentScan(basePackageClasses = {CustomAuthenticationProvider.class, HelloRestController.class})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

@@ -13,7 +13,6 @@ import java.util.Collections;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        SecurityContextHolder.getContext().setAuthentication(null);
         if ("omar".equals(authentication.getPrincipal()) && "pass".equals(authentication.getCredentials())) {
             return new UsernamePasswordAuthenticationToken("ddd", "fff", Collections.emptyList());
         }
