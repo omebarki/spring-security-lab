@@ -14,12 +14,23 @@ import java.io.IOException;
 public class AuthenticationRequestFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        if (isNotAuthenticated()) {
+            extractAuthenticationToken(servletRequest);
+        }
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    private void extractAuthenticationToken(ServletRequest servletRequest) {
         String userName = servletRequest.getParameter("login");
         String password = servletRequest.getParameter("password");
         if (userName != null && password != null) {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName, password);
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
-        filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    private boolean isNotAuthenticated() {
+        return SecurityContextHolder.getContext().getAuthentication() == null ||
+                !SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
     }
 }
