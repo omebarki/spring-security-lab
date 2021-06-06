@@ -2,22 +2,25 @@ package omar.mebarki.security.auth;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-public class AuthenticationRequestFilter extends GenericFilterBean {
+public class OmarAuthenticationRequestFilter extends OncePerRequestFilter {
+
+
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         if (isNotAuthenticated()) {
-            extractAuthenticationToken(servletRequest);
+            extractAuthenticationToken(httpServletRequest);
         }
-        filterChain.doFilter(servletRequest, servletResponse);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
     private void extractAuthenticationToken(ServletRequest servletRequest) {
